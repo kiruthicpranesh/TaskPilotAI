@@ -17,7 +17,7 @@ import { AuthProvider, useAuth } from "./AuthContext";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
-import { Zap } from "lucide-react";
+import { Terminal } from "lucide-react";
 import type { ReactNode } from "react";
 
 // ── Full-screen loading spinner ───────────────────────────────────────────────
@@ -26,15 +26,17 @@ import type { ReactNode } from "react";
 // can take up to ~60s to wake — users see a branded spinner, not a blank page).
 function FullScreenLoader() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex flex-col items-center justify-center gap-4">
-      <div className="bg-purple-600 rounded-2xl p-3 shadow-lg">
-        <Zap className="w-8 h-8 text-white" />
+    // Full-screen spinner shown while session is restored from localStorage.
+    // Also covers Render's cold-start delay gracefully (up to ~50s on free tier).
+    <div className="min-h-screen bg-charcoal-950 bg-dot-grid flex flex-col items-center justify-center gap-4">
+      <div className="bg-charcoal-800 border border-charcoal-700 rounded-2xl p-3 shadow-lg">
+        <Terminal className="w-8 h-8 text-accent-400" />
       </div>
-      <svg className="animate-spin h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24">
+      <svg className="animate-spin h-5 w-5 text-accent-500" fill="none" viewBox="0 0 24 24">
         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
       </svg>
-      <p className="text-sm text-gray-400">Starting TaskPilot…</p>
+      <p className="text-xs text-charcoal-600 font-code">// starting taskpilot…</p>
     </div>
   );
 }

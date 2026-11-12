@@ -2,7 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset #root so Tailwind's full-bleed layouts work */
+/* ── Google Fonts: Inter (body) + JetBrains Mono (code/badges) ──────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ── Base reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #141618;   /* charcoal-950 */
+  color: #dee2e6;              /* charcoal-300 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Root: full-bleed for Tailwind layouts ──────────────────────────────── */
 #root {
   width: 100%;
   max-width: 100%;
@@ -13,20 +28,80 @@
   display: block;
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
+/* ── Monospace utility class — badges, IDs, tool names, code ────────────── */
+.font-code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 }
 
-/* Smooth scrollbar for chat panel */
-.chat-scroll::-webkit-scrollbar {
-  width: 4px;
+/* ── Thin scrollbar for chat panel ─────────────────────────────────────── */
+.chat-scroll { scrollbar-width: thin; scrollbar-color: #343a40 transparent; }
+.chat-scroll::-webkit-scrollbar { width: 4px; }
+.chat-scroll::-webkit-scrollbar-track { background: transparent; }
+.chat-scroll::-webkit-scrollbar-thumb { background: #343a40; border-radius: 2px; }
+.chat-scroll::-webkit-scrollbar-thumb:hover { background: #495057; }
+
+/* ── Subtle dot-grid background for auth page ───────────────────────────── */
+.bg-dot-grid {
+  background-image: radial-gradient(circle, #343a40 1px, transparent 1px);
+  background-size: 20px 20px;
 }
-.chat-scroll::-webkit-scrollbar-track {
-  background: transparent;
+
+/* ── Cyan glow on focused inputs ────────────────────────────────────────── */
+.input-dark {
+  background: #212529;
+  border: 1px solid #343a40;
+  color: #f1f3f5;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: 'Inter', system-ui, sans-serif;
+  outline: none;
 }
-.chat-scroll::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 2px;
+.input-dark::placeholder { color: #6c757d; }
+.input-dark:focus {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
 }
+
+/* ── Tool-call badge — monospace, cyan-tinted ───────────────────────────── */
+.badge-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #22d3ee;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* ── Status badge variants ──────────────────────────────────────────────── */
+.badge-pending     { background: rgba(234,179,8,0.1);  color: #fbbf24; border: 1px solid rgba(234,179,8,0.25);  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 4px; padding: 2px 7px; }
+.badge-in-progress { background: rgba(6,182,212,0.1);  color: #22d3ee; border: 1px solid rgba(6,182,212,0.25);  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 4px; padding: 2px 7px; }
+.badge-done        { background: rgba(34,197,94,0.1);  color: #4ade80; border: 1px solid rgba(34,197,94,0.25);  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 4px; padding: 2px 7px; }
+.badge-admin       { background: rgba(6,182,212,0.12); color: #22d3ee; border: 1px solid rgba(6,182,212,0.3);   font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 4px; padding: 2px 7px; }
+.badge-user        { background: rgba(173,181,189,0.1);color: #adb5bd; border: 1px solid rgba(173,181,189,0.2); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 4px; padding: 2px 7px; }
+
+/* ── Button variants ────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background: #06b6d4; color: #141618; font-weight: 600; font-size: 0.875rem;
+  padding: 0.625rem 1.25rem; border-radius: 0.75rem; border: none; cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.btn-primary:hover:not(:disabled) { background: #0891b2; box-shadow: 0 0 12px rgba(6,182,212,0.3); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 0.375rem;
+  background: transparent; color: #6c757d; font-size: 0.875rem;
+  padding: 0.375rem 0.75rem; border-radius: 0.5rem; border: none; cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.btn-ghost:hover { color: #dee2e6; background: rgba(255,255,255,0.05); }

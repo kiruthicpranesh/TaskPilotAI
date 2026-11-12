@@ -1,33 +1,41 @@
 /**
- * Auth.tsx — Login & Signup page.
+ * Auth.tsx — Login & Signup · dark charcoal theme.
  *
- * Quick-fill buttons let the evaluator test both roles instantly without typing.
- * Tailwind's form styles keep it clean and readable on mobile + desktop.
+ * Quick-fill buttons let the evaluator test both roles instantly.
  */
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogIn, UserPlus, Zap } from "lucide-react";
+import { LogIn, UserPlus, Terminal } from "lucide-react";
 import { loginApi, signupApi, getMeApi } from "../api";
 import { useAuth } from "../AuthContext";
 
 type Mode = "login" | "signup";
 
-// Quick-fill presets for the evaluator — saves typing during demo
 const DEMO_ACCOUNTS = [
   {
     label: "Fill Demo Admin",
     email: "admin@taskpilot.com",
     password: "Admin@123",
-    color: "bg-purple-100 text-purple-700 hover:bg-purple-200 border-purple-300",
+    cls: "border border-cyan-700/50 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20",
   },
   {
     label: "Fill Demo User",
     email: "user@taskpilot.com",
     password: "User@123",
-    color: "bg-blue-100 text-blue-700 hover:bg-blue-200 border-blue-300",
+    cls: "border border-charcoal-600/50 bg-charcoal-800 text-charcoal-300 hover:bg-charcoal-700",
   },
 ];
+
+function Spinner({ sm = false }: { sm?: boolean }) {
+  const s = sm ? "h-3.5 w-3.5" : "h-4 w-4";
+  return (
+    <svg className={`animate-spin ${s} text-charcoal-950`} fill="none" viewBox="0 0 24 24">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+    </svg>
+  );
+}
 
 export default function Auth() {
   const [mode, setMode] = useState<Mode>("login");
@@ -48,13 +56,9 @@ export default function Auth() {
         mode === "login"
           ? await loginApi(email, password)
           : await signupApi(email, password);
-
-      // Store token then fetch the full user profile (id + role)
       localStorage.setItem("token", res.access_token);
       const me = await getMeApi();
       login(res.access_token, me);
-
-      // Redirect admin → admin panel, users → dashboard
       navigate(me.role === "admin" ? "/admin" : "/dashboard");
     } catch (err: unknown) {
       const msg =
@@ -67,35 +71,33 @@ export default function Auth() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-charcoal-950 bg-dot-grid flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo / branding */}
+
+        {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-purple-600 mb-4 shadow-lg">
-            <Zap className="w-7 h-7 text-white" />
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-charcoal-800 border border-charcoal-700 mb-4 shadow-lg">
+            <Terminal className="w-7 h-7 text-accent-400" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">TaskPilot</h1>
-          <p className="text-gray-500 mt-1 text-sm">AI-powered task management</p>
+          <h1 className="text-3xl font-bold text-charcoal-50 tracking-tight">TaskPilot</h1>
+          <p className="text-charcoal-500 mt-1 text-sm font-code">// ai-powered task agent</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          {/* ── Quick-fill buttons (evaluator convenience) ─────────────────── */}
+        <div className="bg-charcoal-900 border border-charcoal-700 rounded-2xl shadow-2xl p-8">
+
+          {/* Quick-fill */}
           {mode === "login" && (
             <div className="mb-6">
-              <p className="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-2">
-                Quick fill for evaluators
+              <p className="text-xs text-charcoal-500 font-code uppercase tracking-widest mb-2">
+                evaluator quick-fill
               </p>
               <div className="flex gap-2">
                 {DEMO_ACCOUNTS.map((acc) => (
                   <button
                     key={acc.email}
                     type="button"
-                    onClick={() => {
-                      setEmail(acc.email);
-                      setPassword(acc.password);
-                      setError("");
-                    }}
-                    className={`flex-1 text-xs font-medium py-2 px-3 rounded-lg border transition-colors ${acc.color}`}
+                    onClick={() => { setEmail(acc.email); setPassword(acc.password); setError(""); }}
+                    className={`flex-1 text-xs font-medium py-2 px-3 rounded-lg transition-colors font-code ${acc.cls}`}
                   >
                     {acc.label}
                   </button>
@@ -104,16 +106,16 @@ export default function Auth() {
             </div>
           )}
 
-          {/* ── Mode tabs ─────────────────────────────────────────────────── */}
-          <div className="flex rounded-xl bg-gray-100 p-1 mb-6">
+          {/* Mode tabs */}
+          <div className="flex rounded-xl bg-charcoal-800 border border-charcoal-700 p-1 mb-6">
             {(["login", "signup"] as Mode[]).map((m) => (
               <button
                 key={m}
                 onClick={() => { setMode(m); setError(""); }}
-                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors capitalize ${
+                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all capitalize ${
                   mode === m
-                    ? "bg-white shadow text-gray-900"
-                    : "text-gray-500 hover:text-gray-700"
+                    ? "bg-charcoal-950 text-charcoal-50 shadow border border-charcoal-600"
+                    : "text-charcoal-500 hover:text-charcoal-300"
                 }`}
               >
                 {m === "login" ? "Sign In" : "Sign Up"}
@@ -121,10 +123,10 @@ export default function Auth() {
             ))}
           </div>
 
-          {/* ── Form ──────────────────────────────────────────────────────── */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-medium text-charcoal-400 mb-1 font-code uppercase tracking-wider">
                 Email
               </label>
               <input
@@ -133,11 +135,11 @@ export default function Auth() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                className="input-dark"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-medium text-charcoal-400 mb-1 font-code uppercase tracking-wider">
                 Password
               </label>
               <input
@@ -146,30 +148,19 @@ export default function Auth() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                className="input-dark"
               />
             </div>
 
             {error && (
-              <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-                {error}
+              <p className="text-sm text-red-400 bg-red-900/20 border border-red-800/40 rounded-lg px-3 py-2 font-code text-xs">
+                ⚠ {error}
               </p>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-60 text-white font-semibold py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2"
-            >
+            <button type="submit" disabled={loading} className="btn-primary w-full mt-2">
               {loading ? (
-                <>
-                  {/* Spinner — also masks Render's cold-start delay (up to ~60s on free tier) */}
-                  <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                  </svg>
-                  {mode === "login" ? "Signing in…" : "Creating account…"}
-                </>
+                <><Spinner /> {mode === "login" ? "Signing in…" : "Creating account…"}</>
               ) : mode === "login" ? (
                 <><LogIn className="w-4 h-4" /> Sign In</>
               ) : (
@@ -179,8 +170,8 @@ export default function Auth() {
           </form>
 
           {mode === "signup" && (
-            <p className="mt-4 text-xs text-center text-gray-400">
-              New accounts are created with the <strong>user</strong> role.
+            <p className="mt-4 text-xs text-center text-charcoal-600 font-code">
+              // new accounts receive role: "user"
             </p>
           )}
         </div>
