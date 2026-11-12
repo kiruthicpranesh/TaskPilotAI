@@ -197,7 +197,7 @@ export default function Dashboard() {
           <div className="px-4 py-3 bg-charcoal-900 border-b border-charcoal-700 flex items-center gap-2">
             <Terminal className="w-4 h-4 text-accent-400" />
             <span className="text-sm font-semibold text-charcoal-100 font-code">agent</span>
-            <span className="text-xs text-charcoal-600 font-code ml-1">groq · llama-3.3-70b-versatile</span>
+            <span className="text-xs text-charcoal-600 font-code ml-1">groq · openai/gpt-oss-120b</span>
           </div>
 
           {/* Messages */}
