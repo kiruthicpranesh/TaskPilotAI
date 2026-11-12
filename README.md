@@ -14,9 +14,9 @@
 
 | | URL |
 |---|---|
-| 🌐 **Frontend** | `[FRONTEND_URL_HERE]` |
-| ⚙️ **Backend API** | `[BACKEND_URL_HERE]` |
-| 📄 **API Docs** | `[BACKEND_URL_HERE]/docs` |
+| 🌐 **Frontend** | `https://task-pilot-ai-seven.vercel.app` |
+| ⚙️ **Backend API** | `https://taskpilotai-16cd.onrender.com` |
+| 📄 **API Docs** | `https://taskpilotai-16cd.onrender.com/docs` |
 
 > [!NOTE]
 > The backend runs on Render's free tier and **sleeps after 15 minutes of inactivity**. The first request after a sleep period may take up to ~50 seconds. The UI displays a branded loading spinner during this wait — no crash, no blank screen.
