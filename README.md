@@ -58,7 +58,7 @@ The login page includes **"Fill Demo Admin"** and **"Fill Demo User"** quick-fil
 ### 1 — Clone the repo
 
 ```bash
-git clone <YOUR_REPO_URL>
+git clone https://github.com/kiruthicpranesh/TaskPilotAI.git
 cd taskpilot
 ```
 
