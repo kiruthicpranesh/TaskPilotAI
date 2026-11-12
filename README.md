@@ -39,7 +39,7 @@ The login page includes **"Fill Demo Admin"** and **"Fill Demo User"** quick-fil
 | **Backend** | Python + FastAPI | Required by the assignment; async, fast, and ships with auto-generated `/docs` |
 | **Frontend** | React 19 + Vite + TypeScript | Instant dev server, first-class TS support, deployed to Vercel in one command |
 | **Database** | PostgreSQL on **Neon** | Free persistent serverless Postgres — survives Render restarts unlike SQLite; recommended in the spec |
-| **LLM / Agent** | **Groq** (`llama-3.3-70b-versatile`) | Groq's LPU hardware delivers inference at ~500 tok/s — the multi-step tool loop (list → find ID → update) completes in under 2 seconds, making the agent feel instant |
+| **LLM / Agent** | **Groq** (`openai/gpt-oss-120b`) | Groq's LPU hardware delivers inference at ~500 tok/s — the multi-step tool loop (list → find ID → update) completes in under 2 seconds, making the agent feel instant |
 | **Auth** | JWT (`python-jose`) + `passlib[bcrypt]` | Stateless, no third-party dependency, standard in FastAPI; bcrypt's cost factor resists brute-force |
 | **ORM** | SQLAlchemy | Mature, migration-free for this scope, integrates cleanly with FastAPI's `Depends()` |
 | **Styling** | Tailwind CSS v3 | Utility-first — the entire UI was built without writing a custom CSS class |
